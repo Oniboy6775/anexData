@@ -175,8 +175,11 @@ const Landing = () => {
             </button>
           </div>
         </div>
-        <div className="">
-          <img src="./assets/phone3.png" alt="" />
+        <div className="col hidden md:block">
+          <img src="./assets/logo.png" alt="" />
+        </div>
+        <div className="col md:hidden max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
+          <img src="./assets/mobile.png" alt="" />
         </div>
       </section>
       <section className="text-center flex flex-col justify-center items-center">
@@ -224,7 +227,7 @@ const Landing = () => {
           })}
         </div>
       </section>
-      <section className="mt-10 bg-[var(--secondary-300)] pb-2   text-[var(--primary-900)] border items-center">
+      <section className="mt-10 bg-[var(--red-dark)] pb-2   text-white border items-center">
         <div className="p-4  max-w-[1300px] m-auto w-11/12">
           <div className=" flex justify-between gap-8 md:gap-0 items-center capitalize mb-4">
             <div className="rounded-full hidden w-48 md:block">

@@ -64,32 +64,11 @@ const DashBoard = () => {
     // },
     // { name: "withdraw", image: withdraw, link: "/profile/withdraw" },
   ];
-  const pay_with_card = () => {
-    if (user.reservedAccountNo3) {
-      window.open(
-        `https://topup.vpay.africa/${user.reservedAccountNo3}`,
-        "blank"
-      );
-    } else {
-      navigate("/profile/fundWallet");
-    }
-  };
 
   return (
     <div className=" md:ml-[6rem] bg-[var(--grey-200)] p-4">
       {showAlert && <WarningAlert close={() => setShowAlert(false)} />}
-      {/* <div className="z-10 m-auto bg-[#25d366] max-w-[300px] rounded-lg ">
-        <p className="text-center text-small leading-none text-white">
-          <FaWhatsapp className="m-1" />
-          <a
-            href="https://whatsapp.com/channel/0029VaCiDi10VycArtEUQ12n"
-            target="blank"
-          >
-            click here{" "}
-          </a>
-          to join our whatsapp community
-        </p>
-      </div> */}
+
       <p className=" text-lg font-bold text-center">
         Welcome back, {user.userName && user.userName.substring(0, 10)}
       </p>
@@ -107,7 +86,7 @@ const DashBoard = () => {
         <>
           {navigation.map((e, index) => (
             <div
-              className=" border-[3px] border-[var(--primary-500)]  self-start w-[30%] max-w-[200px] p-4 bg-[var(--grey-400)] rounded-xl"
+              className=" border-[3px] border-[var(--secondary-500)]  self-start w-[30%] max-w-[200px] p-4 bg-[var(--grey-400)] rounded-xl"
               key={index}
               onClick={() => navigate(`${e.link}`)}
             >
@@ -131,7 +110,7 @@ const DashBoard = () => {
       <section className="md:flex justify-center gap-4 " id="fundWallet">
         <div className="card m-auto md:m-0 bg-[var(--primary-600)]  text-white ">
           <div className="w-100 bg-white rounded-lg">
-            <p className="text-sm font-bold uppercase text-[#25d366]">
+            <p className="text-sm font-bold uppercase text-[var(--secondary-500)]">
               1.08% charges is applied
             </p>
           </div>
@@ -155,16 +134,10 @@ const DashBoard = () => {
               All payments made to the above account number will automatically
               fund your wallet
             </p>
-            <button
-              onClick={pay_with_card}
-              className="btn btn-block btn-hipster "
-            >
-              Pay with ATM card instead
-            </button>
           </div>
         </div>
 
-        <div className="card m-auto md:m-0 bg-[var(--primary-600)] text-white ">
+        <div className="card m-auto md:m-0 bg-[var(--secondary-600)] text-white ">
           <h1 className="sub__title">refer a friend</h1>
           <div className="note">
             Refer people to anexData and earn ₦500 immediately the person
@@ -177,10 +150,7 @@ const DashBoard = () => {
             {user.userType === "smart earner" && (
               <>
                 <p className="text-lg">Upgrade your account</p>
-                <button
-                  className="btn text-white btn-hipster"
-                  onClick={() => setShowAlert(true)}
-                >
+                <button className="btn  " onClick={() => setShowAlert(true)}>
                   Upgrade to reseller @ ₦1000
                 </button>
               </>
