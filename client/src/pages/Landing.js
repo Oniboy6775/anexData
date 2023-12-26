@@ -178,7 +178,7 @@ const Landing = () => {
         <div className="col hidden md:block">
           <img src="./assets/logo.png" alt="" />
         </div>
-        <div className="col md:hidden max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
+        <div className="col md:hidden mb-8 max-w-[250px] justify-center -hue-rotate-30 -rotate-3 m-auto">
           <img src="./assets/mobile.png" alt="" />
         </div>
       </section>

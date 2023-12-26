@@ -150,7 +150,10 @@ const DashBoard = () => {
             {user.userType === "smart earner" && (
               <>
                 <p className="text-lg">Upgrade your account</p>
-                <button className="btn  " onClick={() => setShowAlert(true)}>
+                <button
+                  className="btn text-white btn-hipster"
+                  onClick={() => setShowAlert(true)}
+                >
                   Upgrade to reseller @ ₦1000
                 </button>
               </>
