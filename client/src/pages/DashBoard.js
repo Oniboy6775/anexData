@@ -7,9 +7,7 @@ import data from "../images/data.png";
 import cable from "../images/cable.png";
 import utility from "../images/utility.png";
 import historyImage from "../images/history.png";
-import withdraw from "../images/withdraw.png";
-import earnings from "../images/earnings.svg";
-import facebook from "../images/facebook.svg";
+import whatsapp from "../images/whatsapp.svg";
 import contacts from "../images/contacts.png";
 import { useGlobalContext } from "../context/UserContext";
 import WarningAlert from "../components/WarningAlert";
@@ -68,7 +66,16 @@ const DashBoard = () => {
   return (
     <div className=" md:ml-[6rem] bg-[var(--grey-200)] p-4">
       {showAlert && <WarningAlert close={() => setShowAlert(false)} />}
-
+      <p className="text-center text-small leading-none text-white">
+        <FaWhatsapp className="m-1" />
+        <a
+          href="https://chat.whatsapp.com/C1vKI3VhZJiKT1pqTNQygc"
+          target="blank"
+        >
+          click here{" "}
+        </a>
+        to join our whatsapp community
+      </p>
       <p className=" text-lg font-bold text-center">
         Welcome back, {user.userName && user.userName.substring(0, 10)}
       </p>
@@ -104,6 +111,20 @@ const DashBoard = () => {
               </p>
             </div>
           ))}
+          {/* <div
+            className=" border-[3px] border-[var(--secondary-500)]  self-start w-[30%] max-w-[200px] p-4 bg-[var(--grey-400)] rounded-xl"
+            onClick={() =>
+              window.open(
+                "https://chat.whatsapp.com/C1vKI3VhZJiKT1pqTNQygc",
+                "blank"
+              )
+            }
+          >
+            <div className="max-w-[5rem] m-auto  ">
+              <img className="img" src={whatsapp} alt="airtime" />
+            </div>
+            <p className="font-bold text-center capitalize">Whatsapp </p>
+          </div> */}
         </>
       </section>
       <h3 className="text-center font-bold mt-4 underline">Payment accounts</h3>

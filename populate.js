@@ -8,6 +8,7 @@ const User = require("./Models/usersModel");
 const { GOTV, DSTV, STARTIME } = require("./API_DATA/cabletv");
 const {
   MTN_SME,
+  MTN_SME2,
   GLO,
   AIRTEL,
   NMOBILE,
@@ -28,7 +29,7 @@ const populate = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("DB connected");
-    // await dataModel.create(MTN_SME);
+    await dataModel.create(MTN_SME2);
     // await dataModel.create(AIRTEL);
     // await dataModel.create(GLO);
     // await dataModel.create(NMOBILE);
@@ -54,7 +55,7 @@ const populate = async () => {
     // await dataModel.updateMany({ plan: "15GB" }, { $set: { volumeRatio: 15 } });
     // await dataModel.updateMany({ plan: "20GB" }, { $set: { volumeRatio: 20 } });
     // await dataModel.updateMany({ plan: "36GB" }, { $set: { volumeRatio: 36 } });
-    await notification.create({ msg: "welcome" });
+    // await notification.create({ msg: "welcome" });
     console.log("Success!!");
     process.exit(0);
   } catch (error) {
