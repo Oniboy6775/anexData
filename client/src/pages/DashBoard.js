@@ -66,16 +66,19 @@ const DashBoard = () => {
   return (
     <div className=" md:ml-[6rem] bg-[var(--grey-200)] p-4">
       {showAlert && <WarningAlert close={() => setShowAlert(false)} />}
-      <p className="text-center text-small leading-none text-white">
-        <FaWhatsapp className="m-1" />
-        <a
-          href="https://chat.whatsapp.com/C1vKI3VhZJiKT1pqTNQygc"
-          target="blank"
-        >
-          click here{" "}
-        </a>
-        to join our whatsapp community
-      </p>
+
+      <div className="z-10 m-auto bg-[#25d366] max-w-[300px] rounded-lg ">
+        <p className="text-center text-small leading-none text-white">
+          <FaWhatsapp className="m-1" />
+          <a
+            href="https://chat.whatsapp.com/C1vKI3VhZJiKT1pqTNQygc"
+            target="blank"
+          >
+            click here{" "}
+          </a>
+          to join our whatsapp community
+        </p>
+      </div>
       <p className=" text-lg font-bold text-center">
         Welcome back, {user.userName && user.userName.substring(0, 10)}
       </p>
