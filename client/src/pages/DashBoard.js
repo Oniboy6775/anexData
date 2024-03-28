@@ -20,9 +20,9 @@ const DashBoard = () => {
 
   const copyReferralLink = async () => {
     const userName = encodeURIComponent(user.userName);
-    console.log(userName);
+    const websiteUrl = window.location.origin;
     await window.navigator.clipboard.writeText(
-      `https://www.anexData.com/register/${userName}`
+      `${websiteUrl}/register/${userName}`
     );
     toast.success("Referral link copied");
   };

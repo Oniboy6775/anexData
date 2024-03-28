@@ -29,20 +29,20 @@ const populate = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("DB connected");
-    await dataModel.create(MTN_SME2);
+    // await dataModel.create(MTN_SME2);
     // await dataModel.create(AIRTEL);
     // await dataModel.create(GLO);
     // await dataModel.create(NMOBILE);
     // await costPriceModel.create(costPrices);
     // await dataModel.create(AIRTEL);
-    // await dataModel.updateMany(
-    //   { plan: "500.00MB" },
-    //   { $set: { volumeRatio: 0.5 } }
-    // );
-    // await dataModel.updateMany(
-    //   { plan: "500.0MB" },
-    //   { $set: { volumeRatio: 0.5 } }
-    // );
+    await dataModel.updateMany(
+      { plan: "100.00MB" },
+      { $set: { volumeRatio: 0.1 } }
+    );
+    await dataModel.updateMany(
+      { plan: "100MB" },
+      { $set: { volumeRatio: 0.1 } }
+    );
     // await dataModel.updateMany({ plan: "1GB" }, { $set: { volumeRatio: 1 } });
     // await dataModel.updateMany(
     //   { plan: "1.5GB" },
