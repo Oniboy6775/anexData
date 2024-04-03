@@ -9,8 +9,8 @@ const voucher_codes = require("voucher-code-generator");
 const sendEmail = require("../Utils/sendMail");
 const { REFUND_RECEIPT } = require("./TransactionReceipt");
 const dataModel = require("../Models/dataModel");
-const notification = require("../Models/notification")
-const CostPrice = require("../Models/costPriceModel")
+const notification = require("../Models/notification");
+const CostPrice = require("../Models/costPriceModel");
 const adminDetails = async (req, res) => {
   if (req.user.userId !== process.env.ADMIN_ID)
     return res.status(401).json({
@@ -247,29 +247,68 @@ const searchUsers = async (req, res) => {
   });
 };
 const updatePrice = async (req, res) => {
-  if (req.user.userId !== process.env.ADMIN_ID)
-    return res.status(401).json({
-      msg: "You are not authorized to perform this action",
-    });
   const {
-    newPrice: { price, reseller, api },
+    newPrice: { price, reseller, api, partner },
     dataId,
   } = req.body;
-  let newUpdate = {};
-  if (price) {
-    newUpdate.my_price = price;
-  }
-  if (reseller) {
-    newUpdate.resellerPrice = reseller;
-  }
-  if (api) {
-    newUpdate.apiPrice = api;
-  }
-  try {
-    await dataModel.updateOne({ _id: dataId }, { $set: newUpdate });
-    res.status(200).json({ msg: "Price updated successfully" });
-  } catch (e) {
-    res.status(500).json({ msg: "An error occur" });
+  const { volumeRatio, plan_network, plan_type } = await dataModel.findOne({
+    _id: dataId,
+  });
+  if (volumeRatio == 1) {
+    let dataList = await dataModel.find({
+      plan_network,
+      plan_type,
+      volumeRatio: { $gte: 0.9 },
+    });
+    for (let i = 0; i < dataList.length; i++) {
+      const currentItem = dataList[i];
+      console.log(currentItem);
+      const isUpdated = await dataModel.updateOne(
+        { id: currentItem.id },
+        {
+          $set: {
+            my_price: price
+              ? currentItem.volumeRatio * price
+              : currentItem.my_price,
+            resellerPrice: reseller
+              ? currentItem.volumeRatio * reseller
+              : currentItem.resellerPrice,
+            apiPrice: api
+              ? currentItem.volumeRatio * api
+              : currentItem.apiPrice,
+            partnerPrice: partner
+              ? currentItem.volumeRatio * partner
+              : currentItem.partnerPrice,
+          },
+        }
+      );
+      console.log({ isUpdated });
+    }
+    return res.status(200).json({ msg: "All Prices updated successfully" });
+  } else {
+    let newUpdate = {};
+    if (price) {
+      newUpdate.my_price = price;
+    }
+    if (reseller) {
+      newUpdate.resellerPrice = reseller;
+    }
+    if (partner) {
+      newUpdate.partnerPrice = partner;
+    }
+    if (api) {
+      newUpdate.apiPrice = api;
+    }
+    try {
+      const isUpdated = await dataModel.updateOne(
+        { _id: dataId },
+        { $set: newUpdate }
+      );
+      console.log(isUpdated);
+      res.status(200).json({ msg: "Price updated successfully" });
+    } catch (e) {
+      res.status(500).json({ msg: "An error occur" });
+    }
   }
 };
 const updateCostPrice = async (req, res) => {
@@ -292,7 +331,8 @@ const getCostPrice = async (req, res) => {
 
     console.log(error);
   }
-};const updateNotification = async (req, res) => {
+};
+const updateNotification = async (req, res) => {
   const { msg } = req.body;
   try {
     await notification.updateOne({ msg });
@@ -310,7 +350,8 @@ const getNotification = async (req, res) => {
     console.log(e);
     return res.status(500).json({ msg: "something went wrong" });
   }
-};const upgradeUser = async (req, res) => {
+};
+const upgradeUser = async (req, res) => {
   const { userType, userId } = req.params;
   try {
     await User.updateOne({ _id: userId }, { $set: { userType } });
@@ -329,5 +370,7 @@ module.exports = {
   updatePrice,
   updateCostPrice,
   getCostPrice,
-  updateNotification,getNotification,upgradeUser
+  updateNotification,
+  getNotification,
+  upgradeUser,
 };
