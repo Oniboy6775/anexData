@@ -59,7 +59,6 @@ const register = async (req, res) => {
   try {
     await User.create({ ...req.body });
     // generate account number
-    await generateAcc({ userName, email });
     const user = await User.findOne({ email });
     const token = user.createJWT();
     const allDataList = await Data.find();
@@ -118,6 +117,7 @@ const register = async (req, res) => {
         NETWORK: network,
       },
     });
+    generateAcc({ userName, email });
     if (referredBy) newReferral(req.body);
 
     return;
