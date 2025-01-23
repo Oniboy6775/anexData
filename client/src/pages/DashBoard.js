@@ -13,9 +13,10 @@ import { useGlobalContext } from "../context/UserContext";
 import WarningAlert from "../components/WarningAlert";
 import { FaWhatsapp } from "react-icons/fa";
 import { Modal } from "../components/Modal";
+import palmpay from "../images/palmpay.png";
 
 const DashBoard = () => {
-  const { user, generateVpayAcc } = useGlobalContext();
+  const { user, isLoading, generateAccount } = useGlobalContext();
   const navigate = useNavigate();
 
   const copyReferralLink = async () => {
@@ -114,20 +115,26 @@ const DashBoard = () => {
               </p>
             </div>
           ))}
-          {/* <div
-            className=" border-[3px] border-[var(--secondary-500)]  self-start w-[30%] max-w-[200px] p-4 bg-[var(--grey-400)] rounded-xl"
-            onClick={() =>
-              window.open(
-                "https://chat.whatsapp.com/C1vKI3VhZJiKT1pqTNQygc",
-                "blank"
-              )
-            }
-          >
-            <div className="max-w-[5rem] m-auto  ">
-              <img className="img" src={whatsapp} alt="airtime" />
-            </div>
-            <p className="font-bold text-center capitalize">Whatsapp </p>
-          </div> */}
+          {!isLoading &&
+            !user?.accountNumbers?.find((e) => e.bankName == "palmpay") && (
+              <div
+                className=" border-[3px] border-[var(--secondary-500)]  self-start  max-w-[200px] p-4  bg-white rounded-xl"
+                // key={index}
+                onClick={() => generateAccount("palmpay")}
+              >
+                <div className="max-w-[3rem] m-auto  ">
+                  <img
+                    className="img"
+                    src={palmpay}
+                    alt="whatsapp"
+                    // width={"200px"}
+                  />
+                </div>
+                <p className="font-bold text-center capitalize">
+                  get Palmpay acc{" "}
+                </p>
+              </div>
+            )}
         </>
       </section>
       <h3 className="text-center font-bold mt-4 underline">Payment accounts</h3>

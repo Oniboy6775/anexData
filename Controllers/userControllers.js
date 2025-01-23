@@ -35,6 +35,8 @@ const register = async (req, res) => {
   if (!email || !password || !passwordCheck || !userName || !phoneNumber) {
     return res.status(400).json({ msg: "Not all fields have been entered." });
   }
+  if (phoneNumber.length != "11")
+    return res.status(400).json({ msg: "Please enter a valid phone number" });
   if (password.length < 5)
     return res
       .status(400)
@@ -60,7 +62,7 @@ const register = async (req, res) => {
     await generateAcc({ userName, email });
     const user = await User.findOne({ email });
     const token = user.createJWT();
-        const allDataList = await Data.find();
+    const allDataList = await Data.find();
     const MTN_SME_PRICE = allDataList
       .filter((e) => e.plan_network === "MTN")
       .map((e) => {
@@ -139,7 +141,7 @@ const login = async (req, res) => {
   // generate account number
   if (user.accountNumbers.length < 1)
     await generateAcc({ userName, email: user.email });
-  
+
   const token = user.createJWT();
   const isReseller = user.userType === "reseller";
   const isApiUser = user.userType === "api user";
@@ -797,7 +799,8 @@ const deleteContact = async (req, res) => {
     console.log(error);
     res.status(500).json({ msg: "something went wrong" });
   }
-};const updateWebhookUrl = async (req, res) => {
+};
+const updateWebhookUrl = async (req, res) => {
   const { webhookUrl } = req.body;
   console.log(webhookUrl);
   const startWithHttps = webhookUrl.startsWith("https://");
@@ -827,5 +830,6 @@ module.exports = {
   addContact,
   deleteContact,
   fetchContact,
-  updateContact,updateWebhookUrl
+  updateContact,
+  updateWebhookUrl,
 };
