@@ -115,7 +115,7 @@ const DashBoard = () => {
               </p>
             </div>
           ))}
-          {!isLoading &&
+          {/* {!isLoading &&
             !user?.accountNumbers?.find((e) => e.bankName == "palmpay") && (
               <div
                 className=" border-[3px] border-[var(--secondary-500)]  self-start  max-w-[200px] p-4  bg-white rounded-xl"
@@ -134,7 +134,7 @@ const DashBoard = () => {
                   get Palmpay acc{" "}
                 </p>
               </div>
-            )}
+            )} */}
         </>
       </section>
       <h3 className="text-center font-bold mt-4 underline">Payment accounts</h3>

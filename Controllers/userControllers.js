@@ -25,6 +25,7 @@ const { TRANSFER_RECEIPT, BONUS_RECEIPT } = require("./TransactionReceipt");
 const { MTN_CG, MTN_SME } = require("../API_DATA/newData");
 // const generateVpayAcc = require("../Utils/generateVpayAccount");
 const generateAcc = require("../Utils/accountNumbers");
+const generateBillStackAcc = require("../Utils/generateBillStackAcc");
 
 const register = async (req, res) => {
   let { email, password, passwordCheck, userName, referredBy, phoneNumber } =
@@ -35,8 +36,6 @@ const register = async (req, res) => {
   if (!email || !password || !passwordCheck || !userName || !phoneNumber) {
     return res.status(400).json({ msg: "Not all fields have been entered." });
   }
-  if (phoneNumber.length != "11")
-    return res.status(400).json({ msg: "Please enter a valid phone number" });
   if (password.length < 5)
     return res
       .status(400)
@@ -59,7 +58,11 @@ const register = async (req, res) => {
   try {
     await User.create({ ...req.body });
     // generate account number
+    await generateAcc({ userName, email });
     const user = await User.findOne({ email });
+    generateBillStackAcc({ bankName: "palmpay", userId: user._id });
+    generateBillStackAcc({ bankName: "9psb", userId: user._id });
+
     const token = user.createJWT();
     const allDataList = await Data.find();
     const MTN_SME_PRICE = allDataList
@@ -117,7 +120,6 @@ const register = async (req, res) => {
         NETWORK: network,
       },
     });
-    generateAcc({ userName, email });
     if (referredBy) newReferral(req.body);
 
     return;
@@ -139,9 +141,16 @@ const login = async (req, res) => {
   if (!isPasswordCorrect)
     return res.status(400).json({ msg: "Incorrect password" });
   // generate account number
-  if (user.accountNumbers.length < 1)
-    await generateAcc({ userName, email: user.email });
-
+  const palmPayExist = user.accountNumbers.find((e) => e.bankName == "palmpay");
+  const NPayServiceBankExist = user.accountNumbers.find(
+    (e) => e.bankName == "9psb"
+  );
+  if (!palmPayExist) {
+    await generateBillStackAcc({ bankName: "palmpay", userId: user._id });
+  }
+  if (!NPayServiceBankExist) {
+    await generateBillStackAcc({ bankName: "9psb", userId: user._id });
+  }
   const token = user.createJWT();
   const isReseller = user.userType === "reseller";
   const isApiUser = user.userType === "api user";
